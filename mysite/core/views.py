@@ -40,6 +40,10 @@ def post_list(request):
         return JsonResponse({"posts": data})
     return render(request, 'post_list.html', {'posts': posts})
 
+def fetch_posts(request):
+    posts = Post.objects.all().values('title', 'content', 'author__username')
+    return JsonResponse(list(posts), safe=False)
+
 @login_required
 def post_create(request):
     if request.method == 'POST':
