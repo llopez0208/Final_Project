@@ -20,6 +20,14 @@
     {% endfor %}
 </div>
 
+<button id="load-posts">Load Posts</button>
+
+<div id="posts">
+    <!-- AJAX-loaded posts will appear here -->
+</div>
+
+
+
 <script>
 $('#search').on('keyup', function() {
     $.ajax({
@@ -33,5 +41,7 @@ $('#search').on('keyup', function() {
         }
     });
 });
+
+<script src="{% static 'main/scripts.js' %}"></script>
 </script>
 {% endblock %}
