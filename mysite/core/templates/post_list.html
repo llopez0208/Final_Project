@@ -1,0 +1,37 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<h1>Posts</h1>
+
+{% if user.is_authenticated %}
+<a href="{% url 'post_add' %}">Add New Post</a> | 
+<a href="{% url 'profile' %}">Edit Profile</a> | 
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a> | 
+<a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+
+<input type="text" id="search" placeholder="Search posts...">
+<div id="posts">
+    {% for post in posts %}
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+    {% endfor %}
+</div>
+
+<script>
+$('#search').on('keyup', function() {
+    $.ajax({
+        url: "{% url 'post_list' %}",
+        data: {q: $(this).val()},
+        success: function(data) {
+            $('#posts').empty();
+            data.posts.forEach(function(post) {
+                $('#posts').append('<h3>' + post.title + '</h3><p>' + post.content + '</p>');
+            });
+        }
+    });
+});
+</script>
+{% endblock %}
